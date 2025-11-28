@@ -4,10 +4,8 @@ from decimal import Decimal
 import json
 import sys
 from pathlib import Path
-
 sys.path.append(str(Path(__file__).resolve().parents[1]))
-
-import vars   # ← this now works
+import vars   
 
 
 args = {"jsonrpc":"1.0","id":"pybitwrapper"}
@@ -18,9 +16,8 @@ while True:
     test = cmd.split(" ")
 
     args["method"] = test[0]
-    args["params"] = list(test[1])
+    args["params"] = [test[1]]
 
-    
 
     r = requests.post(vars.url, auth=auth, json=args, timeout=10)
     
