@@ -15,9 +15,11 @@ while True:
     cmd = input("bitcoin-cli>")
     test = cmd.split(" ")
 
+    if test[1].isdigit():
+        test[1] = int(test[1])
+
     args["method"] = test[0]
     args["params"] = [test[1]]
-
 
     r = requests.post(vars.url, auth=auth, json=args, timeout=10)
     
