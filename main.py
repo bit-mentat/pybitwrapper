@@ -17,6 +17,8 @@ while True:
 
     if test[1].isdigit():
         test[1] = int(test[1])
+    elif len(test) == 3 and test[2].isdigit():
+        args["params"].append(test[2])
 
     args["method"] = test[0]
     args["params"] = [test[1]]
