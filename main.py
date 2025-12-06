@@ -4,6 +4,7 @@ from decimal import Decimal
 import json
 import sys
 from pathlib import Path
+import parse
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 import vars   
 
@@ -15,13 +16,12 @@ while True:
     cmd = input("bitcoin-cli>")
     test = cmd.split(" ")
 
-    if test[1].isdigit():
-        test[1] = int(test[1])
-    elif len(test) == 3 and test[2].isdigit():
-        args["params"].append(test[2])
-
     args["method"] = test[0]
-    args["params"] = [test[1]]
+
+    if len(test) > 1:
+        args["params"] = [parse.parse_arg(p) for p in test[1:]]
+    else:
+        args["params"] = []
 
     r = requests.post(vars.url, auth=auth, json=args, timeout=10)
     
