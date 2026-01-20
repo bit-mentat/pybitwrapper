@@ -13,18 +13,22 @@ args = {"jsonrpc":"1.0","id":"pybitwrapper"}
 auth = (vars.user, vars.password)
 
 while True:
-    cmd = input("bitcoin-cli>")
-    test = cmd.split(" ")
+    try:
+        cmd = input("bitcoin-cli>")
+        test = cmd.split(" ")
 
-    args["method"] = test[0]
+        args["method"] = test[0]
 
-    if len(test) > 1:
-        args["params"] = [parse.parse_arg(p) for p in test[1:]]
-    else:
-        args["params"] = []
+        if len(test) > 1:
+            args["params"] = [parse.parse_arg(p) for p in test[1:]]
+        else:
+            args["params"] = []
 
-    r = requests.post(vars.url, auth=auth, json=args, timeout=10)
-    
-    obj = json.loads(r.text, parse_float=Decimal)
-    print(pj.pretty_json(obj, indent=2))
+        r = requests.post(vars.url, auth=auth, json=args, timeout=10)
+        
+        obj = json.loads(r.text, parse_float=Decimal)
+        print(pj.pretty_json(obj, indent=2))
+    except EOFError:
+        print("\nExiting")
+        break
 		
